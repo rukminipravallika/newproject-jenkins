@@ -50,7 +50,6 @@
   a { color:inherit; text-decoration:none; }
   [hidden] { display:none !important; }
 
-  /* Accessible focus — always visible, never for mouse clicks */
   :focus-visible {
     outline:none;
     box-shadow:var(--ring);
@@ -310,7 +309,6 @@
   .card-title {
     font-size:.98rem; font-weight:700; line-height:1.35;
     letter-spacing:-.01em;
-    /* keep cards aligned when names wrap */
     display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
     overflow:hidden; min-height:2.7em;
   }
@@ -392,7 +390,6 @@
   }
   .icon-btn:hover { background:var(--surface-alt); color:var(--text); }
 
-  /* Free shipping progress */
   .ship-progress { padding:16px 20px; border-bottom:1px solid var(--border); }
   .ship-progress p {
     font-size:.82rem; font-weight:700; color:var(--text-muted); margin-bottom:9px;
@@ -457,13 +454,11 @@
 
   .ci-total { font-size:.92rem; font-weight:800; white-space:nowrap; }
 
-  /* Empty cart */
   .cart-empty { text-align:center; padding:64px 28px; }
   .cart-empty .emoji { font-size:2.6rem; margin-bottom:14px; }
   .cart-empty h3 { font-size:1.05rem; font-weight:800; margin-bottom:6px; }
   .cart-empty p { color:var(--text-muted); font-size:.9rem; margin-bottom:22px; }
 
-  /* Drawer footer */
   .drawer-foot {
     padding:20px; border-top:1px solid var(--border);
     background:var(--surface);
@@ -950,7 +945,7 @@
 
   function animateCartCount() {
     cartCountEl.classList.remove('pop');
-    void cartCountEl.offsetWidth; // force reflow
+    void cartCountEl.offsetWidth;
     cartCountEl.classList.add('pop');
   }
 
@@ -958,12 +953,10 @@
     const qty = cartQuantity();
     const subtotal = cartSubtotal();
 
-    /* Badge */
     cartCountEl.textContent = qty;
     cartCountEl.hidden = qty === 0;
     cartPill.textContent = qty;
 
-    /* Free-shipping progress */
     if (qty === 0) {
       shipWrap.hidden = true;
     } else {
@@ -976,7 +969,6 @@
         : `<strong>🎉 You've unlocked free shipping!</strong>`;
     }
 
-    /* Items */
     if (cart.length === 0) {
       cartBody.innerHTML = `
         <div class="cart-empty">
@@ -1048,8 +1040,6 @@
   }
 
   /* ---------------- EVENTS ---------------- */
-
-  /* Search (debounced for smoothness) */
   let searchTimer;
   searchInput.addEventListener('input', e => {
     const value = e.target.value;
@@ -1060,7 +1050,6 @@
     }, 140);
   });
 
-  /* Category chips */
   chips.forEach(chip => {
     chip.addEventListener('click', () => {
       state.category = chip.dataset.cat;
@@ -1069,13 +1058,11 @@
     });
   });
 
-  /* Sort */
   sortSelect.addEventListener('change', e => {
     state.sort = e.target.value;
     renderProducts();
   });
 
-  /* Reset filters from empty state */
   $('#resetFilters').addEventListener('click', () => {
     state.query = '';
     state.category = 'All';
@@ -1087,7 +1074,6 @@
     searchInput.focus();
   });
 
-  /* Add to cart (delegated) */
   grid.addEventListener('click', e => {
     const btn = e.target.closest('[data-add]');
     if (!btn) return;
@@ -1102,7 +1088,6 @@
     }, 1200);
   });
 
-  /* Cart drawer controls (delegated) */
   cartBody.addEventListener('click', e => {
     const inc = e.target.closest('[data-inc]');
     const dec = e.target.closest('[data-dec]');
@@ -1121,7 +1106,6 @@
     if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
   });
 
-  /* Simple focus trap inside the drawer */
   drawer.addEventListener('keydown', e => {
     if (e.key !== 'Tab') return;
     const focusable = $$(
